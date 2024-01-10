@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-: #f9f4f4;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 470px;
+            background: linear-gradient(135deg, #00feba, #5b548a);
+            color: #fff;
+            margin: 100px auto 0;
+            border-radius: 20px;
+            padding: 40px 35px;
+            text-align: center;
+        }
+
+        .search {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search input {
+            border: 0;
+            outline: 0;
+            background: #ebfffc;
+            color: #555;
+            padding: 10px 25px;
+            border-radius: 30px;
+            flex: 1;
+            margin-right: 16px;
+            font-size: 16px;
+
+        }
+
+        .search button {
+            border: 0;
+            outline: 0;
+            background: #ebfffc;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+        }
+
+        .search button img {
+            width: 16px;
+        }
+
+        .weather h1 {
+            font-size: 80px;
+            font-weight: 500;
+            margin-top: -10px;
+        }
+
+        .details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-top: 50px;
+
+        }
+
+        .col {
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+
+        .col img {
+            width: 40px;
+            margin-right: 10px;
+
+        }
+
+        .humidity,
+        .wind {
+            font-size: 28px;
+            margin-top: -6px;
+
+        }
+        .weather-icon {
+        width: 150px; /* Increase the width by 20px */
+        margin-top: 30px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" id="cityInput" placeholder="enter city name" spellcheck="false">
+            <button class="search-btn" id="searchButton"><img src="./images/search2.png"></button>
+        </div>
+        <div class="weather">
+            <img src="./images/sun_with_cloud.png" class="weather-icon" id="weatherIcon">
+            <h1 class="temp" id="temperature">22°C</h1>
+            <h2 class="city" id="cityName">New York</h2>
+            <div class="details">
+                <div class="col">
+                    <img src="./images/humidity2.png">
+                    <div>
+                        <p class="humidity">humidity</p>
+                        <p id="humidityValue">50%</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="./images/wind-removebg-preview (2).png">
+                    <div>
+                        <p class="wind">wind speed</p>
+                        <p id="windSpeed">7 km/h</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById('searchButton').addEventListener('click', function () {
+            const apiKey = 'f493ae1ed68c5dcaef1ac950ee161b73'; // Replace with your OpenWeatherMap API key
+            const city = document.getElementById('cityInput').value;
+
+            // Make a fetch request to OpenWeatherMap API
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
+                .then(response => response.json())
+                .then(data => {
+                    // Print weather data to the console
+                    console.log(data);
+
+                    // Update the HTML elements with weather data
+                    document.getElementById('weatherIcon').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+                    document.getElementById('temperature').textContent = `${data.main.temp}°C`;
+                    document.getElementById('cityName').textContent = data.name;
+                    document.getElementById('humidityValue').textContent = `${data.main.humidity}%`;
+                    document.getElementById('windSpeed').textContent = `${data.wind.speed} km/h`;
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
+                });
+        });
+    </script>
+</body>
+
+</html
